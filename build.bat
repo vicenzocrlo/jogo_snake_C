@@ -3,7 +3,7 @@ echo ===================================================
 echo   Compilando Snake Game em C...
 echo ===================================================
 
-:: Tenta localizar GCC no sistema ou pacotes WinGet
+:: Tenta localizar GCC no PATH
 where gcc >nul 2>nul
 if %errorlevel% equ 0 (
     echo Usando GCC encontrado no PATH...
@@ -11,12 +11,21 @@ if %errorlevel% equ 0 (
     goto check_result
 )
 
-:: Tenta localizar Clang
+:: Tenta localizar Clang no PATH
 where clang >nul 2>nul
 if %errorlevel% equ 0 (
     echo Usando Clang encontrado no PATH...
     clang -O2 -Wall main.c game.c -o snake.exe
     goto check_result
+)
+
+:: Tenta encontrar compilador LLVM-MinGW no WinGet Temp
+for /r "%LOCALAPPDATA%\Temp\WinGet" %%i in (clang.exe) do (
+    if exist "%%i" (
+        echo Usando Clang do WinGet: %%i
+        "%%i" -O2 -Wall main.c game.c -o snake.exe
+        goto check_result
+    )
 )
 
 :: Tenta encontrar compiladores MinGW instalados no WinGet / APPDATA
