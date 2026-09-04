@@ -1,0 +1,11 @@
+# Executáveis e arquivos de build
+*.exe
+*.o
+*.obj
+*.pdb
+*.ilk
+
+# Pastas de IDE e ambiente
+.vs/
+.vscode/
+build/
